@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Avaleht from './pages/Avaleht';
+import LisaToode from './pages/LisaToode';
 import Ostukorv from './pages/Ostukorv';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path='' element={ <Avaleht /> } />
         <Route path='ostukorv' element={ <Ostukorv /> } />
+        <Route path='lisa-toode' element={ <LisaToode /> } />
       </Routes>
 
     </div>
