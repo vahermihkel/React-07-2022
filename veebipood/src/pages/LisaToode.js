@@ -13,10 +13,33 @@ function LisaToode() {
       m22raS6num("Toodet ei saa lisada kui nimi on tühi");
     } else {
       //m22raS6num("Toode " + nimiRef.current.value + " edukalt lisatud");
+      let tooted = localStorage.getItem("tooted");
+      console.log(tooted); // null                '["asdasdasdas"]'
+      tooted = JSON.parse(tooted) || [];
+      console.log(tooted); // []                   ["asdasdasdas"]
+      tooted.push(nimiRef.current.value);
+      console.log(tooted); // ['asdasdasdas']      ["asdasdasdas", "qeqwe"]
+      tooted = JSON.stringify(tooted);
+      console.log(tooted); // '["asdasdasdas"]'   '["asdasdasdas", "qeqwe"]'
+      localStorage.setItem("tooted", tooted)
       m22raS6num(`Toode ${nimiRef.current.value} edukalt lisatud`);
-      localStorage.setItem("tooted", nimiRef.current.value);
+      //localStorage.setItem("tooted", nimiRef.current.value);
     }
   }
+
+  // 1. võta localStorage-st kõik eelnevad väärtused
+  //              localStorage.getItem("VÕTI");
+  // 2. võta jutumärgid ära
+  //              JSON.parse(array);
+  // 3. lisa uus toode juurde
+  //              array.push(ref.väärtus);
+  // 4. pane jutumärgid tagasi
+  //              JSON.stringify(array)
+  // 5. pane localStorage-sse uuenenud kujul tagasi
+  //              localStorage.setItem("VÕTI", array);
+
+  // ----> lisa see refi väärtus
+  // andmebaasis saab
 
   return ( 
     <div>
