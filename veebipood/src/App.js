@@ -4,6 +4,7 @@ import Avaleht from './pages/Avaleht';
 import LisaToode from './pages/LisaToode';
 import Ostukorv from './pages/Ostukorv';
 import Poed from './pages/Poed';
+import YksikToode from './pages/YksikToode';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path='ostukorv' element={ <Ostukorv /> } />
         <Route path='lisa-toode' element={ <LisaToode /> } />
         <Route path='poed' element={ <Poed /> } />
+        <Route path='toode/:nimi' element={ <YksikToode /> } />
       </Routes>
 
     </div>

@@ -80,8 +80,12 @@ function Avaleht() {
     <button onClick={() => muudaK6ik()}>Pane kõigile uus väärtus</button> <br />
 
     <div>{tooted.map(element => 
-      <div key={element}>
-        <div>{element}</div>
+      <div key={element.nimi}>
+        <Link to={"/toode/" + element.nimi}>
+          <div>{element.nimi}</div>
+          <div>{element.hind}</div>
+          <div>{element.aktiivne}</div>
+        </Link>
         <button onClick={() => lisaOstukorvi(element)}>Lisa ostukorvi</button>
       </div>)}
     </div>
