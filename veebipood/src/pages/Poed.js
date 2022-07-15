@@ -1,4 +1,10 @@
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
+
+// KOODI KIRJUTAMINE
+// oma eelnevast projektist (koolitustel, udemy-st, ise projektid)
+// ettevõttes mõnest teisest failist sama loogika üles leidmine
+// Google - guugeldades
 
 // ffc
 function Poed() {
@@ -38,6 +44,9 @@ function Poed() {
       {/* <div>Kristiine</div>
       <div>Mustamäe</div>
       <div>Ülemiste</div> */}
+      <Link to="/">
+        <button>TAGASI</button>
+      </Link>
       <button onClick={() => sorteeriAZ()}>Sorteeri A-Z</button>
       <button onClick={() => sorteeriZA()}>Sorteeri Z-A</button>
       {poed.map((pood, nr) => 

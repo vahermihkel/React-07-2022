@@ -74,6 +74,9 @@ function Avaleht() {
     <Link to="/poed">
       <button>HALDA POODE</button>
     </Link>
+    <Link to="/halda">
+      <button>HALDA TOOTEID</button>
+    </Link>
     <div>{muutuja}</div>
     { muutuja === "uus väärtus" && <div>Väärtust on muudetud</div>}
     <button onClick={() => funktsioonMisMuudabMuutujat("uus väärtus")}>Pane uus väärtus</button>
