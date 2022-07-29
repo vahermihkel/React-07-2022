@@ -1,6 +1,8 @@
 
 function SingleProduct() {
-  return ( <div>Üksiku toote vaatamise leht</div> );
+  // KOJU
+
+  return ( <div>KOJU - Üksiku toote vaatamise leht</div> );
 }
 
 export default SingleProduct;
