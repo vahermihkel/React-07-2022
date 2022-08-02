@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import productsFromFile from '../../products.json';
+import { useEffect, useRef, useState } from "react";
+// import productsFromFile from '../../products.json';
 import categoriesFromFile from '../../categories.json';
 
 function AddProduct() {
@@ -10,6 +10,18 @@ function AddProduct() {
   const categoryRef = useRef();
   const imageRef = useRef();
   const activeRef = useRef();
+  const [idUnique, setIdUnique] = useState(true);
+  const [products, setProducts] = useState([]);
+  const productsUrl = "https://react-0722-default-rtdb.europe-west1.firebasedatabase.app/products.json";
+
+  useEffect(() => {
+    fetch(productsUrl)
+      .then(res => res.json())
+      .then(data => {
+        // setDatabaseProducts(data);
+        setProducts(data);
+      })
+  }, []);
 
   const addNewProduct = () => {
     const newProduct = {
@@ -21,13 +33,35 @@ function AddProduct() {
       "category":categoryRef.current.value,
       "active":activeRef.current.checked
     }
-    productsFromFile.push(newProduct);
+    products.push(newProduct);
+    // LISA ANDMEBAASI
+    fetch(productsUrl, {
+      method: "PUT",
+      body: JSON.stringify(products),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+  }
+
+  const checkIdUniqueness = () => {
+    // KUI ON OLEMAS: 0,1,2,3,4,5,6,7,...,481     KUI EI OLE OLEMAS: -1
+                                                        //   51947968      === "51947968"
+    const index = products.findIndex(element => Number(element.id) === Number(idRef.current.value));
+    if (index === -1) {
+      // console.log("ID ON UNIKAALNE!");
+      setIdUnique(true);
+    } else {
+      // console.log("ID ON KELLELGI OLEMAS!");
+      setIdUnique(false);
+    }
   }
 
   return ( 
   <div>
+    { idUnique === false && <div>ID ei ole unikaalne!</div>}
     <label>Toote ID</label> <br />
-    <input ref={idRef} type="number" /> <br />
+    <input onChange={checkIdUniqueness} ref={idRef} type="number" /> <br />
     <label>Toote nimi</label> <br />
     <input ref={nameRef} type="text" /> <br />
     <label>Toote hind</label> <br />
@@ -43,7 +77,7 @@ function AddProduct() {
     <input ref={imageRef} type="text" /> <br />
     <label>Toote aktiivsus</label> <br />
     <input ref={activeRef} type="checkbox" /> <br />
-    <button onClick={addNewProduct}>Sisesta</button>
+    <button disabled={idUnique===false} onClick={addNewProduct}>Sisesta</button>
   </div> );
 }
 

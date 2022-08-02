@@ -1,14 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import productsFromFile from "../products.json";
+// import productsFromFile from "../products.json";
 
 function HomePage() {
-  const [products, setProducts] = useState(productsFromFile);
-  const categories = [...new Set(productsFromFile.map(element => element.category))];
+  const [databaseProducts, setDatabaseProducts] = useState([]); // andmebaasist võetud, aga mida ei muuda pärast seda kunagi
+  const [products, setProducts] = useState([]); // väljanäidatavad tooted, mida järjepidevalt muudan
+  const categories = [...new Set(databaseProducts.map(element => element.category))]; // andmebaasitooteid
   const [activeCategory, setActiveCategory] = useState("all");
   // .map( => UUS_VÄÄRTUS)     [{n:"1"}, {n:"2"}, {n:"3"}]   ---->   ["1","2","3"] asenduseks    .length sama
   // .sort( => Pluss või miinusmärk)    [{n:"1"},{n:"2"}, {n:"3"}]  ---> [{n:"3"}, {n:"2"}, {n:"1"}]   .length sama
   // .filter( => TRUE või FALSE )        [{n:"1"}, {n:"2"}, {n:"3"}]  -->   [{n:"2"}, {n:"3"}]   .length väheneb
+
+  // aadress, mille andis Firebase / products.json
+  const productsUrl = "https://react-0722-default-rtdb.europe-west1.firebasedatabase.app/products.json";
+  // uef
+  useEffect(() => {
+    fetch(productsUrl)
+      .then(res => res.json())
+      .then(data => {
+        setDatabaseProducts(data);
+        setProducts(data);
+      })
+  }, []);
 
   const sortAZ = () => {
     // muteerib - mutates
@@ -34,9 +47,9 @@ function HomePage() {
   const filterByCategory = (categoryClicked) => {
     // tagastab - returns
     if (categoryClicked === 'all') {
-      setProducts(productsFromFile);
+      setProducts(databaseProducts);
     } else {
-      const result = productsFromFile.filter(element => element.category === categoryClicked);
+      const result = databaseProducts.filter(element => element.category === categoryClicked);
       setProducts(result);
     }
     // const result = productsFromFile.filter(element => element.category === categoryClicked);

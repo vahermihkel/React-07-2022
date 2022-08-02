@@ -57,7 +57,7 @@ function Cart() {
         <button onClick={() => decreaseQuantity(index)}>-</button>
         <div>{element.quantity} tk</div>
         <button onClick={() => increaseQuantity(index)}>+</button>
-        <div>{element.product.price * element.quantity} tk</div>
+        <div>{element.product.price * element.quantity} €</div>
         <button onClick={() => removeFromCart(index)}>x</button>
       </div>)}
 
