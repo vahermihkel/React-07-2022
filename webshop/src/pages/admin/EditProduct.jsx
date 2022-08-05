@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 // import productsFromFile from '../../products.json';
-import categoriesFromFile from '../../categories.json';
+// import categoriesFromFile from '../../categories.json';
 
 function EditProduct() {
   const [products, setProducts] = useState([]);
@@ -21,6 +21,9 @@ function EditProduct() {
   const [idUnique, setIdUnique] = useState(true);
   const productsUrl = "https://react-0722-default-rtdb.europe-west1.firebasedatabase.app/products.json";
 
+  const [categories, setCategories] = useState([]);
+  const categoriesUrl = "https://react-0722-default-rtdb.europe-west1.firebasedatabase.app/categories.json";
+
   useEffect(() => {
     fetch(productsUrl)
       .then(res => res.json())
@@ -28,6 +31,10 @@ function EditProduct() {
         // setDatabaseProducts(data);
         setProducts(data);
       })
+
+    fetch(categoriesUrl)
+      .then(res => res.json())
+      .then(data => setCategories(data))
   }, []);
 
   // võtke KÕIK inputid ja labelid AddProductist
@@ -88,7 +95,7 @@ function EditProduct() {
       <label>Toote kategooria</label> <br />
       {/* <input ref={categoryRef} defaultValue={product.category} type="text" /> <br /> */}
       <select ref={categoryRef} defaultValue={product.category}>
-        {categoriesFromFile.map(element => <option>{element.name}</option>)}
+        {categories.map(element => <option key={element.name}>{element.name}</option>)}
       </select> <br />
       <label>Toote pilt</label> <br />
       <input ref={imageRef} defaultValue={product.image} type="text" /> <br />

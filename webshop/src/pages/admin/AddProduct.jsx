@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 // import productsFromFile from '../../products.json';
-import categoriesFromFile from '../../categories.json';
+// import categoriesFromFile from '../../categories.json';
 
 function AddProduct() {
   const idRef = useRef();
@@ -14,6 +14,9 @@ function AddProduct() {
   const [products, setProducts] = useState([]);
   const productsUrl = "https://react-0722-default-rtdb.europe-west1.firebasedatabase.app/products.json";
 
+  const [categories, setCategories] = useState([]);
+  const categoriesUrl = "https://react-0722-default-rtdb.europe-west1.firebasedatabase.app/categories.json";
+
   useEffect(() => {
     fetch(productsUrl)
       .then(res => res.json())
@@ -21,6 +24,10 @@ function AddProduct() {
         // setDatabaseProducts(data);
         setProducts(data);
       })
+
+    fetch(categoriesUrl)
+      .then(res => res.json())
+      .then(data => setCategories(data))
   }, []);
 
   const addNewProduct = () => {
@@ -71,7 +78,7 @@ function AddProduct() {
     <label>Toote kategooria</label> <br />
     {/* <input ref={categoryRef} type="text" /> <br /> */}
     <select ref={categoryRef}>
-      {categoriesFromFile.map(element => <option>{element.name}</option>)}
+      {categories.map(element => <option key={element.name}>{element.name}</option>)}
     </select> <br />
     <label>Toote pilt</label> <br />
     <input ref={imageRef} type="text" /> <br />

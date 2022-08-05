@@ -1,27 +1,52 @@
 // localStorage/sessionStorage - igaühe arvutis (ainult ostukorvi jaoks, keele jaoks)
 // fail - lugemiseks
 // andmebaas - T   MongoDb / Firebase andmebaas
-import { useRef, useState } from "react";
-import categoriesFromFile from "../../categories.json";
+import { useEffect, useRef, useState } from "react"; // <---- useEffect import
+// import categoriesFromFile from "../../categories.json"; // <---- kommenteerin välja
 
 function Category() {
-  const [categories, setCategories] = useState(categoriesFromFile);
+  const [categories, setCategories] = useState([]);
   const categoryRef = useRef();
                                                               //                      !!!!!!!!!!!!!!!
-  // const categoriesUrl = "https://react-0722-default-rtdb.europe-west1.firebasedatabase.app/categories.json";
+  const categoriesUrl = "https://react-0722-default-rtdb.europe-west1.firebasedatabase.app/categories.json";
 
+  // uef + enter
+  useEffect(() => {
+    fetch(categoriesUrl)
+      .then(res => res.json())
+      .then(data => setCategories(data)) // loogelised sulud on vabatahtlikud - panen/ei pane, kui on ÜKS rida
+                                  // loogelised sulud on kohustuslikud - pean panema, kui on vähemalt KAKS rida
+  }, []);
+
+  //    [].map(element => ) <--- kui on üks argument, siis on vabatahtlik - panen/ei pane tavalised sulud
+  //    [].map((element,index) => ) <--- kui on kaks argumenti, siis on kohustuslik - pean panema tavalised sulud
 
                 // event - siia sisse lähevad kõik sündmusega seotud omadused
   const addCategory = (e) => {
+    // console.log(e);
     if (e.key === "Enter" || e.type === "click") {
-      categoriesFromFile.push({name: categoryRef.current.value}); // andmebaasi lisamise päring
-      setCategories(categoriesFromFile.slice());
+      categories.push({name: categoryRef.current.value}); // andmebaasi lisamise päring
+      setCategories(categories.slice());
+      fetch(categoriesUrl,{
+        method: "PUT",
+        body: JSON.stringify(categories),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
     }
   }
 
   const deleteCategory = (index) => {
-    categoriesFromFile.splice(index,1);
-    setCategories(categoriesFromFile.slice());
+    categories.splice(index,1);
+    setCategories(categories.slice());
+    fetch(categoriesUrl,{
+      method: "PUT",
+      body: JSON.stringify(categories),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
   }
 
   return ( 

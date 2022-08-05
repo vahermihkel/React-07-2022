@@ -62,7 +62,7 @@ function Cart() {
       </div>)}
 
       {selectedPM === "" && <select onChange={pmSelected} ref={parcelMachineRef}>
-        {parcelMachines.map(element => <option>{element.NAME}</option>)}
+        {parcelMachines.map(element => <option key={element.NAME}>{element.NAME}</option>)}
       </select>}
       {selectedPM !== "" && <div>{selectedPM}<button onClick={deleteSelectedPM}>x</button></div>}
 

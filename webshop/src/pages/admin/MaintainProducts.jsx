@@ -8,24 +8,35 @@ function MaintainProducts() {
   const searchedRef = useRef();
   const productsUrl = "https://react-0722-default-rtdb.europe-west1.firebasedatabase.app/products.json";
 
+  // päring käivitub KOHESELT lehele tulles
+  // KUI on useState funktsioon .then sees
+  // SIIS pean panema useEffect ümber
+
+  // 500ms
+  // asünkroonne
   useEffect(() => {
-    fetch(productsUrl)
-      .then(res => res.json())
-      .then(data => {
-        setDatabaseProducts(data);
-        setProducts(data);
+    fetch(productsUrl) // päring interneti
+      .then(res => res.json()) // res / response -> tähistab komplekti kogu päringust (staatuskood, aeg, sisu, kust)
+      .then(data => {     // data  / json --->  sisu, mida saan sellest päringust
+        setDatabaseProducts(data); // data abil panen useState funktsiooni kaudu muutujasse lehel olevad väärtused
+        setProducts(data); // data abil panen useState funktsiooni kaudu muutujasse lehel olevad väärtused
       })
   }, []);
+
+  // uef
+  // useEffect(() => {
+  // }, []);
 
   const deleteProduct = (productClicked) => {
     const index = databaseProducts.indexOf(productClicked);
     databaseProducts.splice(index,1);
     setProducts(databaseProducts.slice());
+    // asendab kõik andmebaasitooted
     fetch(productsUrl, {
-      method: "PUT",
-      body: JSON.stringify(databaseProducts),
+      method: "PUT", // meetodi tüüp - asendus
+      body: JSON.stringify(databaseProducts), // asendamise sisu - andmed
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json" // mis liiki sinna andmed läbivad
       }
     });
   }
@@ -57,5 +68,6 @@ function MaintainProducts() {
       </div>)}
   </div> );
 }
+// 10ms
 
 export default MaintainProducts;
