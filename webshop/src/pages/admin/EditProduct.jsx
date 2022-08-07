@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 // import productsFromFile from '../../products.json';
 // import categoriesFromFile from '../../categories.json';
 
@@ -23,6 +23,8 @@ function EditProduct() {
 
   const [categories, setCategories] = useState([]);
   const categoriesUrl = "https://react-0722-default-rtdb.europe-west1.firebasedatabase.app/categories.json";
+
+  const navigate = useNavigate(); // <- import ka
 
   useEffect(() => {
     fetch(productsUrl)
@@ -60,7 +62,7 @@ function EditProduct() {
       headers: {
         "Content-Type": "application/json"
       }
-    });
+    }).then(() => navigate("/admin/halda-tooteid"));
   }
 
   const checkIdUniqueness = () => {

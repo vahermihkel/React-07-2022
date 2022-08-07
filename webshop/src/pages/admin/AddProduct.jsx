@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+// import { Link } from "react-router-dom";
 // import productsFromFile from '../../products.json';
 // import categoriesFromFile from '../../categories.json';
+
 
 function AddProduct() {
   const idRef = useRef();
@@ -16,6 +19,8 @@ function AddProduct() {
 
   const [categories, setCategories] = useState([]);
   const categoriesUrl = "https://react-0722-default-rtdb.europe-west1.firebasedatabase.app/categories.json";
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(productsUrl)
@@ -48,7 +53,8 @@ function AddProduct() {
       headers: {
         "Content-Type": "application/json"
       }
-    });
+    }).then(() => navigate("/admin/halda-tooteid"));
+    // SUUNAME PÄRAST LISAMIST ÄRA
   }
 
   const checkIdUniqueness = () => {
@@ -84,7 +90,9 @@ function AddProduct() {
     <input ref={imageRef} type="text" /> <br />
     <label>Toote aktiivsus</label> <br />
     <input ref={activeRef} type="checkbox" /> <br />
+    {/* <Link to="/admin/halda-tooteid"> */}
     <button disabled={idUnique===false} onClick={addNewProduct}>Sisesta</button>
+    {/* </Link> */}
   </div> );
 }
 
