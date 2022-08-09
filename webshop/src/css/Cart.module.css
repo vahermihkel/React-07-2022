@@ -1,0 +1,86 @@
+.cartProduct {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid lightgray;
+  margin: 0 10%;
+  padding: 10px 0;
+  /* 10vh/vw - ekraanist %
+     10% - parent elemendist
+     10px - pikslit
+     0
+          ü     p    a    v
+  margin: 10px 30px 20px 40px;
+          ü-a  v-p
+  margin: 10px 30px;
+  margin: 10% - igas suunas 
+  margin-bottom: 10px;
+  margin-top: 20px;   */
+}
+
+.image {
+  width: 100px;
+}
+
+.name {
+  width: 300px;
+}
+
+.button {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: .5s;
+}
+
+.button:hover {
+  opacity: 0.7;
+  transition: .5s;
+}
+
+.price {
+  width: 70px;
+}
+
+.controls {
+  display: flex;
+  text-align: center;
+}
+
+.quantity {
+  width: 40px;
+}
+
+.total {
+  width: 70px;
+}
+
+.bottom {
+  text-align: right;
+  margin: 0 10%;
+}
+
+.sum {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+@media only screen and (max-width: 804px) {
+  .image {
+    width: 80px;
+  }
+  .name {
+    width: 200px;
+  }
+}
+
+@media only screen and (max-width: 656px) {
+  .image {
+    width: 60px;
+  }
+  .name {
+    width: 150px;
+  }
+  .cartProduct {
+    margin: 0 5%;
+  }
+}

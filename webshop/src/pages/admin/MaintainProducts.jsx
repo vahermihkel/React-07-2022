@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-// import productsFromFile from '../../products.json';
+import { ToastContainer, toast } from 'react-toastify';
 
 function MaintainProducts() {
   const [databaseProducts, setDatabaseProducts] = useState([]); // andmebaasist võetud, aga mida ei muuda pärast seda kunagi
@@ -39,6 +39,10 @@ function MaintainProducts() {
         "Content-Type": "application/json" // mis liiki sinna andmed läbivad
       }
     });
+    toast.error('Edukalt kustutatud!', {
+      position: "bottom-right",
+      theme: "dark"
+      });
   }
 
   // kirjeldusest + id-st leidmine, samamoodi nagu nimest
@@ -50,6 +54,7 @@ function MaintainProducts() {
 
   return ( 
   <div>
+    <ToastContainer />
     <input type="text" onChange={searchProducts} ref={searchedRef} /> <span>{products.length}</span>
     {products.map(element => 
       <div key={element.id}>

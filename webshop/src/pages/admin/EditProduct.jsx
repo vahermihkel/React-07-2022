@@ -44,10 +44,10 @@ function EditProduct() {
 
   const updateProduct = () => {
     const newProduct = {
-      "id":idRef.current.value,
+      "id":Number(idRef.current.value),
       "image":imageRef.current.value,
       "name":nameRef.current.value,
-      "price":priceRef.current.value,
+      "price":Number(priceRef.current.value),
       "description":descriptionRef.current.value,
       "category":categoryRef.current.value,
       "active":activeRef.current.checked

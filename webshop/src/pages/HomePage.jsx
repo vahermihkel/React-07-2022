@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 // import productsFromFile from "../products.json";
 
 function HomePage() {
@@ -84,11 +86,16 @@ function HomePage() {
     }
     cart = JSON.stringify(cart);
     sessionStorage.setItem("cart", cart);
+    toast.success('Edukalt lisatud ostukorvi!', {
+      position: "bottom-right",
+      theme: "dark"
+      });
   }
 
   // ternary operator     true/false ? true-blokk : false-blokk
   return ( 
   <div>
+    <ToastContainer />
     <div className={activeCategory === 'all' ? "category-active" : undefined} 
       onClick={() => filterByCategory('all')}>
         Kõik kategooriad
@@ -105,9 +112,12 @@ function HomePage() {
     <div>Tooteid on {products.length} tk</div>
     {products.map(element => 
       <div key={element.id}>
-        <img src={element.image} alt="" />
-        <div>{element.name}</div>
-        <div>{element.price}</div>
+        {/* <Link to={"/toode/" + element.id}> */}
+        <Link to={`/toode/${element.id}`}>
+          <img src={element.image} alt="" />
+          <div>{element.name}</div>
+          <div>{element.price}</div>
+        </Link>
         <Button variant="success" onClick={() => addToCart(element)}>Lisa ostukorvi</Button>
       </div>)}
   </div> );
