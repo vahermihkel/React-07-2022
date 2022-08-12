@@ -1,12 +1,17 @@
+  // loogelised sulud - võtab tüki sellest klassist
+  // ilma loogeliste sulgudeta võtab kõik
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
-// import productsFromFile from "../products.json";
+import Spinner from "../components/Spinner";
+//  kui on faililaiend .js või .jsx, siis ei pea seda lõppu kirjutama
+// aga .css või .json pean
 
 function HomePage() {
   const [databaseProducts, setDatabaseProducts] = useState([]); // andmebaasist võetud, aga mida ei muuda pärast seda kunagi
   const [products, setProducts] = useState([]); // väljanäidatavad tooted, mida järjepidevalt muudan
+  const [isLoading, setLoading] = useState(false);
   const categories = [...new Set(databaseProducts.map(element => element.category))]; // andmebaasitooteid
   const [activeCategory, setActiveCategory] = useState("all");
   // .map( => UUS_VÄÄRTUS)     [{n:"1"}, {n:"2"}, {n:"3"}]   ---->   ["1","2","3"] asenduseks    .length sama
@@ -17,11 +22,14 @@ function HomePage() {
   const productsUrl = "https://react-0722-default-rtdb.europe-west1.firebasedatabase.app/products.json";
   // uef
   useEffect(() => {
+    setLoading(true);
     fetch(productsUrl)
       .then(res => res.json())
       .then(data => {
-        setDatabaseProducts(data);
-        setProducts(data);
+        data = data.filter(element => element.active === true);
+        setDatabaseProducts(data || []);
+        setProducts(data || []);
+        setLoading(false);
       })
   }, []);
 
@@ -95,6 +103,7 @@ function HomePage() {
   // ternary operator     true/false ? true-blokk : false-blokk
   return ( 
   <div>
+    { isLoading && <Spinner />}
     <ToastContainer />
     <div className={activeCategory === 'all' ? "category-active" : undefined} 
       onClick={() => filterByCategory('all')}>

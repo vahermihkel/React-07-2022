@@ -16,3 +16,11 @@
 .map {
   height: 300px;
 }
+
+.product-active {
+  border: 1px solid green;
+}
+
+.product-inactive {
+  border: 1px solid red;
+}

@@ -27,12 +27,20 @@ function AddProduct() {
       .then(res => res.json())
       .then(data => {
         // setDatabaseProducts(data);
-        setProducts(data);
+        setProducts(data || []);
       })
 
     fetch(categoriesUrl)
       .then(res => res.json())
-      .then(data => setCategories(data))
+      .then(data => setCategories(data || []))
+
+    // fetch(categoriesUrl)
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     if (data !== null) { 
+    //       setCategories(data);
+    //     }
+    //   }) 
   }, []);
 
   const addNewProduct = () => {

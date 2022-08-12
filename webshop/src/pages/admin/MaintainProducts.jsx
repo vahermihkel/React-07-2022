@@ -18,8 +18,8 @@ function MaintainProducts() {
     fetch(productsUrl) // päring interneti
       .then(res => res.json()) // res / response -> tähistab komplekti kogu päringust (staatuskood, aeg, sisu, kust)
       .then(data => {     // data  / json --->  sisu, mida saan sellest päringust
-        setDatabaseProducts(data); // data abil panen useState funktsiooni kaudu muutujasse lehel olevad väärtused
-        setProducts(data); // data abil panen useState funktsiooni kaudu muutujasse lehel olevad väärtused
+        setDatabaseProducts(data || []); // data abil panen useState funktsiooni kaudu muutujasse lehel olevad väärtused
+        setProducts(data || []); // data abil panen useState funktsiooni kaudu muutujasse lehel olevad väärtused
       })
   }, []);
 
@@ -52,19 +52,40 @@ function MaintainProducts() {
     setProducts(result);
   }
 
+  const changeProductActive = (clickedId) => {
+    const index = databaseProducts.findIndex(element => element.id === clickedId); // järjekorranumbrit on võimalik leida mitmel viisil
+    // NII KUSTUTAMINE KUI MUUTMINE VAJAVAD JÄRJEKORRANUMBRIT
+    // ["Üks", "Kaks", "kolm"][2] = "Kolm";
+    // [{quantity: 2}, {quantity: 5}][1].quantity = [{quantity: 2}, {quantity: 5}][1].quantity + 1;
+    databaseProducts[index].active = !databaseProducts[index].active; // <--- vs delete erineb see rida
+    // [{active: true}, {active: false}][0].active = ![{active: true}, {active: false}][0].active;
+    // hüüumärk tähistab siin vastupidist true -> false      false -> true
+    setProducts(databaseProducts.slice());
+
+    fetch(productsUrl, {
+      method: "PUT", // meetodi tüüp - asendus
+      body: JSON.stringify(databaseProducts), // asendamise sisu - andmed
+      headers: {
+        "Content-Type": "application/json" // mis liiki sinna andmed läbivad
+      }
+    });
+  }
+
   return ( 
   <div>
     <ToastContainer />
     <input type="text" onChange={searchProducts} ref={searchedRef} /> <span>{products.length}</span>
     {products.map(element => 
-      <div key={element.id}>
-        <div>{element.id}</div>
-        <div>{element.image}</div>
-        <div>{element.name}</div>
-        <div>{element.price}</div>
-        <div>{element.description}</div>
-        <div>{element.category}</div>
-        <div>{element.active + 0}</div>
+      <div key={element.id} className={ element.active === true ? "product-active" : "product-inactive" }>
+        <div onClick={() => changeProductActive(element.id)}>
+          <div>{element.id}</div>
+          <div>{element.image}</div>
+          <div>{element.name}</div>
+          <div>{element.price}</div>
+          <div>{element.description}</div>
+          <div>{element.category}</div>
+          <div>{element.active + 0}</div>
+        </div>
         <button onClick={() => deleteProduct(element)}>x</button>
         <Link to={`/admin/muuda/${element.id}`}>
         {/* <Link to={"/admin/muuda/" + element.id}> */}
