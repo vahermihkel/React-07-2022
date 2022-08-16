@@ -43,7 +43,41 @@ function AddProduct() {
     //   }) 
   }, []);
 
+
+  const [message, setMessage] = useState("");
+
   const addNewProduct = () => {
+
+    // if (idRef.current.value === "" ||
+    // nameRef.current.value === "" ||
+    // priceRef.current.value === "" ||
+    // descriptionRef.current.value === "" ||
+    // imageRef.current.value === "") {
+    //   setMessage("Nõutud väljad on täitmata!");
+    //   return;
+    // }
+
+    if (idRef.current.value === "") {
+      setMessage("Id on täitmata");
+      return;
+    }
+    if (nameRef.current.value === "") {
+      setMessage("Nimi on täitmata");
+      return;
+    }
+    if (priceRef.current.value === "") {
+      setMessage("Hind on täitmata");
+      return;
+    }
+    if (descriptionRef.current.value === "") {
+      setMessage("Kirjeldus on täitmata");
+      return;
+    }
+    if (imageRef.current.value === "") {
+      setMessage("Pilt on täitmata");
+      return;
+    }
+
     const newProduct = {
       "id":Number(idRef.current.value),
       "image":imageRef.current.value,
@@ -80,6 +114,7 @@ function AddProduct() {
 
   return ( 
   <div>
+    <div>{message}</div>
     { idUnique === false && <div>ID ei ole unikaalne!</div>}
     <label>Toote ID</label> <br />
     <input onChange={checkIdUniqueness} ref={idRef} type="number" /> <br />
@@ -105,3 +140,9 @@ function AddProduct() {
 }
 
 export default AddProduct;
+
+// Nortali proovitöö
+// Iseseisev projekt lõpus
+//     1) Webshop edasiarendus
+//     2) Youtube/Udemy - õpetus
+//     3) Mõni enda mõte

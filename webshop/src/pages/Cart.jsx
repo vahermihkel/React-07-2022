@@ -58,8 +58,41 @@ function Cart() {
     sessionStorage.removeItem("parcelMachine");
   }
 
+  const pay = () => {
+
+    const paymentData = {
+      "api_username": "92ddcfab96e34a5f",
+      "account_name": "EUR3D1",
+      "amount": calculateCartSum(),
+      "order_reference": Math.random() * 999999,
+      "nonce": "a9b7f7e7" + new Date() + Math.random() * 999999,
+      "timestamp": new Date(),
+      "customer_url": "https://react-0722.web.app"
+      }      
+
+    fetch("https://igw-demo.every-pay.com/api/v4/payments/oneoff", {
+      method: "POST",
+      body: JSON.stringify(paymentData),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Basic OTJkZGNmYWI5NmUzNGE1Zjo4Y2QxOWU5OWU5YzJjMjA4ZWU1NjNhYmY3ZDBlNGRhZA=="
+      }
+    }).then(res => res.json())
+    .then(data => {
+      if (data.payment_link === undefined) {
+        setPaymentMessage("Makse ei õnnestunud, proovi mõne aja pärast uuesti");
+      } else {
+        window.location.href = data.payment_link;
+      }
+    })
+  }
+
+  const [paymentMessage, setPaymentMessage] = useState("");
+
   return ( 
   <div>
+    <button>KODUS: Tühjenda nupp</button>
+
     {cart.map((element, index) => 
       <div key={element.product.id} className={styles.cartProduct}>
         <img className={styles.image} src={element.product.image} alt="" />
@@ -86,14 +119,19 @@ function Cart() {
           alt="" />
       </div>)}
 
-      <div className={styles.bottom}>
-        {selectedPM === "" && <select onChange={pmSelected} ref={parcelMachineRef}>
-          {parcelMachines.map(element => <option key={element.NAME}>{element.NAME}</option>)}
-        </select>}
-        {selectedPM !== "" && <div>{selectedPM}<button onClick={deleteSelectedPM}>x</button></div>}
+      {cart.length > 0 && 
+        <div className={styles.bottom}>
+          {selectedPM === "" && <select onChange={pmSelected} ref={parcelMachineRef}>
+            {parcelMachines.map(element => <option key={element.NAME}>{element.NAME}</option>)}
+          </select>}
+          {selectedPM !== "" && <div>{selectedPM}<button onClick={deleteSelectedPM}>x</button></div>}
 
-        <div className={styles.sum}>{calculateCartSum().toFixed(2)} €</div>
-      </div>
+          <div className={styles.sum}>{calculateCartSum().toFixed(2)} €</div>
+          <button onClick={pay}>Maksa</button>
+          <div>{paymentMessage}</div>
+        </div>}
+
+      <div>KODUS: MINGI ILUS PILT KUI OSTUKORV ON TÜHI (length on 0)</div>
   </div> );
 }
 
