@@ -1,9 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { Link } from "react-router-dom";
-// import productsFromFile from '../../products.json';
-// import categoriesFromFile from '../../categories.json';
-
 
 function AddProduct() {
   const idRef = useRef();
@@ -16,47 +12,22 @@ function AddProduct() {
   const [idUnique, setIdUnique] = useState(true);
   const [products, setProducts] = useState([]);
   const productsUrl = "https://react-0722-default-rtdb.europe-west1.firebasedatabase.app/products.json";
-
   const [categories, setCategories] = useState([]);
   const categoriesUrl = "https://react-0722-default-rtdb.europe-west1.firebasedatabase.app/categories.json";
-
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     fetch(productsUrl)
       .then(res => res.json())
-      .then(data => {
-        // setDatabaseProducts(data);
-        setProducts(data || []);
-      })
+      .then(data => setProducts(data || []))
 
     fetch(categoriesUrl)
       .then(res => res.json())
       .then(data => setCategories(data || []))
-
-    // fetch(categoriesUrl)
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     if (data !== null) { 
-    //       setCategories(data);
-    //     }
-    //   }) 
   }, []);
 
-
-  const [message, setMessage] = useState("");
-
   const addNewProduct = () => {
-
-    // if (idRef.current.value === "" ||
-    // nameRef.current.value === "" ||
-    // priceRef.current.value === "" ||
-    // descriptionRef.current.value === "" ||
-    // imageRef.current.value === "") {
-    //   setMessage("Nõutud väljad on täitmata!");
-    //   return;
-    // }
-
     if (idRef.current.value === "") {
       setMessage("Id on täitmata");
       return;
@@ -88,7 +59,6 @@ function AddProduct() {
       "active":activeRef.current.checked
     }
     products.push(newProduct);
-    // LISA ANDMEBAASI
     fetch(productsUrl, {
       method: "PUT",
       body: JSON.stringify(products),
@@ -96,18 +66,13 @@ function AddProduct() {
         "Content-Type": "application/json"
       }
     }).then(() => navigate("/admin/halda-tooteid"));
-    // SUUNAME PÄRAST LISAMIST ÄRA
   }
 
   const checkIdUniqueness = () => {
-    // KUI ON OLEMAS: 0,1,2,3,4,5,6,7,...,481     KUI EI OLE OLEMAS: -1
-                                                        //   51947968      === "51947968"
     const index = products.findIndex(element => Number(element.id) === Number(idRef.current.value));
     if (index === -1) {
-      // console.log("ID ON UNIKAALNE!");
       setIdUnique(true);
     } else {
-      // console.log("ID ON KELLELGI OLEMAS!");
       setIdUnique(false);
     }
   }
@@ -125,7 +90,6 @@ function AddProduct() {
     <label>Toote kirjeldus</label> <br />
     <input ref={descriptionRef} type="text" /> <br />
     <label>Toote kategooria</label> <br />
-    {/* <input ref={categoryRef} type="text" /> <br /> */}
     <select ref={categoryRef}>
       {categories.map(element => <option key={element.name}>{element.name}</option>)}
     </select> <br />
@@ -133,9 +97,7 @@ function AddProduct() {
     <input ref={imageRef} type="text" /> <br />
     <label>Toote aktiivsus</label> <br />
     <input ref={activeRef} type="checkbox" /> <br />
-    {/* <Link to="/admin/halda-tooteid"> */}
     <button disabled={idUnique===false} onClick={addNewProduct}>Sisesta</button>
-    {/* </Link> */}
   </div> );
 }
 

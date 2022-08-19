@@ -1,9 +1,11 @@
   // loogelised sulud - võtab tüki sellest klassist
   // ilma loogeliste sulgudeta võtab kõik
 import { useEffect, useState } from "react";
-import { Button, Carousel, Pagination  } from "react-bootstrap";
+import { Button, Pagination  } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
+import CarouselGallery from "../components/home/CarouselGallery";
+import SortButtons from "../components/home/SortButtons";
 import Spinner from "../components/Spinner";
 //  kui on faililaiend .js või .jsx, siis ei pea seda lõppu kirjutama
 // aga .css või .json pean
@@ -15,11 +17,6 @@ function HomePage() {
   const [isLoading, setLoading] = useState(false);
   const categories = [...new Set(databaseProducts.map(element => element.category))]; // andmebaasitooteid
   const [activeCategory, setActiveCategory] = useState("all");
-  const images = [
-    {src: "https://picsum.photos/id/237/500/200", alt: "First slide", header: "First slide label", text: "Nulla vitae elit libero, a pharetra augue mollis interdum."},
-    {src: "https://picsum.photos/id/132/500/200", alt: "Second slide", header: "Second slide label", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."},
-    {src: "https://picsum.photos/id/239/500/200", alt: "Third slide", header: "Third slide label", text: "Praesent commodo cursus magna, vel scelerisque nisl consectetur."},
-  ];
 
   const [activePage,setActivePage] = useState(1); // aktiivse lehe number, mida ta näitab sinisena
   // 480 toodet
@@ -50,27 +47,6 @@ function HomePage() {
         setLoading(false);
       })
   }, []);
-
-  const sortAZ = () => {
-    // muteerib - mutates
-    const result = [...products].sort((a,b)=> a.name.localeCompare(b.name));
-    setProducts(result);
-  }
-
-  const sortZA = () => {
-    const result = [...products].sort((a,b)=> b.name.localeCompare(a.name));
-    setProducts(result);
-  }
-
-  const sortPriceAsc = () => {
-    const result = [...products].sort((a,b)=> a.price - b.price);
-    setProducts(result);
-  }
-
-  const sortPriceDesc = () => {
-    const result = [...products].sort((a,b)=> b.price - a.price);
-    setProducts(result);
-  }
 
   const filterByCategory = (categoryClicked) => {
     // tagastab - returns
@@ -122,38 +98,18 @@ function HomePage() {
       });
   }
 
-  // useEffect(() => {
-  //   fetch("https://react-0722-default-rtdb.europe-west1.firebasedatabase.app/images.json")
-  //     .then(res => res.json())
-  //     .then(data => setImages(data))
-  // }, []);
-  // ternary operator     true/false ? true-blokk : false-blokk
-
-  // const [images, setImages] = useState([]);
-
   const changeActivePage = (number) => {
     setActivePage(number);
     // 1-20       .slice(0,20)    1
     // 21-40      .slice(20,40)   2
     // 41-60      .slcie(40,60)   3
     setProducts(filteredProducts.slice(number*20-20,number*20));
+    // kui panen järjekorda, aga vahetan lehte, siis paneb otsast peale
   }
 
   return ( 
   <div>
-    <Carousel>
-      {images.map( element => <Carousel.Item key={element.src}>
-        <img
-          src={element.src}
-          alt={element.alt}
-        />
-        <Carousel.Caption>
-          <h3>{element.header}</h3>
-          <p>{element.text}</p>
-        </Carousel.Caption>
-      </Carousel.Item>)}
-
-    </Carousel>
+    <CarouselGallery />
 
     { isLoading && <Spinner />}
     <ToastContainer />
@@ -166,10 +122,9 @@ function HomePage() {
         onClick={() => filterByCategory(element)}>
           {element}
       </div>)}
-    <Button onClick={sortAZ}>Sort A-Z</Button>
-    <Button onClick={sortZA}>Sort Z-A</Button>
-    <Button onClick={sortPriceAsc}>Hind kasvavalt</Button>
-    <Button onClick={sortPriceDesc}>Hind kahanevalt</Button>
+    
+    <SortButtons categoryProducts={filteredProducts} updatePageProducts={setProducts} />
+
     <div>Tooteid on {filteredProducts.length} tk</div>
     {products.map(element => 
       <div key={element.id}>
@@ -191,3 +146,8 @@ function HomePage() {
 }
 
 export default HomePage;
+
+
+// ME EI LASE ühtegi faili suuremaks kui 200 rida
+// ideaalis hoiame kõik failid mitte suuremad kui 150 rida
+// praegu proovime kõik failid hoida mitte suuremad kui 100 rida
