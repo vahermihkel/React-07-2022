@@ -8,6 +8,7 @@ function Cart() {
   const [parcelMachines, setParcelMachines] = useState([]);
   const parcelMachineRef = useRef();
   const [selectedPM, setSelectedPM] = useState(sessionStorage.getItem("parcelMachine") || "");
+  const [paymentMessage, setPaymentMessage] = useState("");
 
   useEffect(() => { // <-- import
     fetch("https://www.omniva.ee/locations.json")
@@ -86,8 +87,6 @@ function Cart() {
       }
     })
   }
-
-  const [paymentMessage, setPaymentMessage] = useState("");
 
   return ( 
   <div>
