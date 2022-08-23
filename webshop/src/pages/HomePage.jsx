@@ -1,10 +1,11 @@
   // loogelised sulud - võtab tüki sellest klassist
   // ilma loogeliste sulgudeta võtab kõik
 import { useEffect, useState } from "react";
-import { Button, Pagination  } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
+import { Pagination  } from "react-bootstrap";
+import { ToastContainer } from 'react-toastify';
 import CarouselGallery from "../components/home/CarouselGallery";
+import CategoryFilter from "../components/home/CategoryFilter";
+import Product from "../components/home/Product";
 import SortButtons from "../components/home/SortButtons";
 import Spinner from "../components/Spinner";
 //  kui on faililaiend .js või .jsx, siis ei pea seda lõppu kirjutama
@@ -15,8 +16,6 @@ function HomePage() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [products, setProducts] = useState([]); // väljanäidatavad tooted, mida järjepidevalt muudan
   const [isLoading, setLoading] = useState(false);
-  const categories = [...new Set(databaseProducts.map(element => element.category))]; // andmebaasitooteid
-  const [activeCategory, setActiveCategory] = useState("all");
 
   const [activePage,setActivePage] = useState(1); // aktiivse lehe number, mida ta näitab sinisena
   // 480 toodet
@@ -41,62 +40,28 @@ function HomePage() {
       .then(res => res.json())
       .then(data => {
         data = data.filter(element => element.active === true);
+
+        const cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+        data = data.map(element => {
+          const index = cart.findIndex(cartProduct => cartProduct.product.id === element.id);
+          
+          let count = 0;
+          if (index >= 0) {
+            count = cart[index].quantity;
+          }
+
+          return {
+            ...element,
+            count
+          }
+        })
+
         setDatabaseProducts(data || []); // originaalsed kuidas tuleb andmebaasist (474)
         setFilteredProducts(data || []); // filtreerimise järgsed (kategooria järgi) (230/230/10/5/1)
         setProducts(data.slice(0,20) || []); // leheküljel korraga näidatavad (20-20-20-20-20-viimasel lehel vähem)
         setLoading(false);
       })
   }, []);
-
-  const filterByCategory = (categoryClicked) => {
-    // tagastab - returns
-    if (categoryClicked === 'all') {
-      setFilteredProducts(databaseProducts);
-      setProducts(databaseProducts.slice(0,20));
-    } else {
-      const result = databaseProducts.filter(element => element.category === categoryClicked);
-      setFilteredProducts(result);
-      setProducts(result.slice(0,20));
-      // midagi pean panema ka setProducts osas siia -> näitab mingit 20-t toodet
-    }
-    setActivePage(1);
-    // const result = productsFromFile.filter(element => element.category === categoryClicked);
-    // categoryClicked === 'all' ? setProducts(productsFromFile) : setProducts(result);
-    setActiveCategory(categoryClicked);
-  }
-
-  // {"id":772,"image":"https.bp","name":"Display","price":20.37,"description":"Display Stand","category":"star wars","active":true}
-  // .push() ---> lisab toote massiivile juurde [].push({})  -> [{}].push({})  -->  [{},{}]
-  // {product: {id: 7, name: ""}, quantity: 1}
-
-          // {"id":772,"image":"https.bp","name":"Display","price":20.37,"description":"Display Stand","category":"star wars","active":true}
-  const addToCart = (productClicked) => {
-    console.log(productClicked);
-    // null || "[{"id":772,"image":"https.bp","name":"Display","price":20.37,"description":"Display Stand","category":"star wars","active":true}]"
-    let cart = sessionStorage.getItem("cart");
-    console.log(cart);
-    // [] || [{"id":772,"image":"https.bp","name":"Display","price":20.37,"description":"Display Stand","category":"star wars","active":true}]
-    cart = JSON.parse(cart) || [];
-    console.log(cart);
-    //cart.push() ??? if else
-    // -1 ||  >= 0
-    const index = cart.findIndex(element => element.product.id === productClicked.id);
-    console.log(index);
-    if (index >= 0) {
-    //  [{},{}][index] = {};
-    //{product: {"id":772,"name":"Display"}, quantity: 2}
-      cart[index].quantity = cart[index].quantity + 1;
-    } else {
-    //         {product: {"id":772,"name":"Display"}, quantity: 1}
-      cart.push({product: productClicked, quantity: 1});
-    }
-    cart = JSON.stringify(cart);
-    sessionStorage.setItem("cart", cart);
-    toast.success('Edukalt lisatud ostukorvi!', {
-      position: "bottom-right",
-      theme: "dark"
-      });
-  }
 
   const changeActivePage = (number) => {
     setActivePage(number);
@@ -109,33 +74,31 @@ function HomePage() {
 
   return ( 
   <div>
-    <CarouselGallery />
-
-    { isLoading && <Spinner />}
     <ToastContainer />
-    <div className={activeCategory === 'all' ? "category-active" : undefined} 
-      onClick={() => filterByCategory('all')}>
-        Kõik kategooriad
-    </div>
-    {categories.map(element => 
-      <div key={element} className={activeCategory === element ? "category-active" : undefined} 
-        onClick={() => filterByCategory(element)}>
-          {element}
-      </div>)}
+    <CarouselGallery />
+    { isLoading && <Spinner />}
+   
+    <CategoryFilter
+      databaseProducts={databaseProducts}
+      setFilteredProducts={setFilteredProducts}
+      setProducts={setProducts}
+      setActivePage={setActivePage}
+    />
     
-    <SortButtons categoryProducts={filteredProducts} updatePageProducts={setProducts} />
+    <SortButtons 
+      categoryProducts={filteredProducts} 
+      updatePageProducts={setProducts}
+      updatePage={setActivePage} />
 
     <div>Tooteid on {filteredProducts.length} tk</div>
     {products.map(element => 
-      <div key={element.id}>
-        {/* <Link to={"/toode/" + element.id}> */}
-        <Link to={`/toode/${element.id}`}>
-          <img src={element.image} alt="" />
-          <div>{element.name}</div>
-          <div>{element.price}</div>
-        </Link>
-        <Button variant="success" onClick={() => addToCart(element)}>Lisa ostukorvi</Button>
-      </div>)}
+        <Product 
+          key={element.id} 
+          element={element}
+          products={products}
+          setProducts={setProducts} />
+      )}
+
      { pages.length > 1 && 
       <Pagination>{pages.map(number => 
         <Pagination.Item key={number} active={number === activePage} onClick={()=>changeActivePage(number)}>

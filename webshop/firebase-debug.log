@@ -1,33 +1,33 @@
-[debug] [2022-08-09T09:07:29.285Z] ----------------------------------------------------------------------
-[debug] [2022-08-09T09:07:29.287Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\vahermih\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
-[debug] [2022-08-09T09:07:29.288Z] CLI Version:   11.4.2
-[debug] [2022-08-09T09:07:29.288Z] Platform:      win32
-[debug] [2022-08-09T09:07:29.288Z] Node Version:  v16.13.1
-[debug] [2022-08-09T09:07:29.290Z] Time:          Tue Aug 09 2022 12:07:29 GMT+0300 (Ida-Euroopa suveaeg)
-[debug] [2022-08-09T09:07:29.290Z] ----------------------------------------------------------------------
+[debug] [2022-08-23T07:13:38.286Z] ----------------------------------------------------------------------
+[debug] [2022-08-23T07:13:38.289Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\vahermih\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2022-08-23T07:13:38.289Z] CLI Version:   11.7.0
+[debug] [2022-08-23T07:13:38.289Z] Platform:      win32
+[debug] [2022-08-23T07:13:38.290Z] Node Version:  v16.13.1
+[debug] [2022-08-23T07:13:38.291Z] Time:          Tue Aug 23 2022 10:13:38 GMT+0300 (Ida-Euroopa suveaeg)
+[debug] [2022-08-23T07:13:38.291Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2022-08-09T09:07:29.406Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2022-08-09T09:07:29.406Z] > authorizing via signed-in user (mihkelreact@gmail.com)
-[debug] [2022-08-09T09:07:29.407Z] [iam] checking project react-0722 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
-[debug] [2022-08-09T09:07:29.409Z] > refreshing access token with scopes: []
-[debug] [2022-08-09T09:07:29.411Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
-[debug] [2022-08-09T09:07:29.412Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2022-08-09T09:07:29.780Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
-[debug] [2022-08-09T09:07:29.780Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2022-08-09T09:07:29.795Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/react-0722:testIamPermissions [none]
-[debug] [2022-08-09T09:07:29.796Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/react-0722:testIamPermissions x-goog-quota-user=projects/react-0722
-[debug] [2022-08-09T09:07:29.796Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/react-0722:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
-[debug] [2022-08-09T09:07:30.917Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/react-0722:testIamPermissions 200
-[debug] [2022-08-09T09:07:30.917Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/react-0722:testIamPermissions {}
-[debug] [2022-08-09T09:07:30.918Z] [iam] error while checking permissions, command may fail: FirebaseError: Authorization failed. This account is missing the following required permissions on project react-0722:
+[debug] [2022-08-23T07:13:38.373Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-08-23T07:13:38.373Z] > authorizing via signed-in user (mihkelreact@gmail.com)
+[debug] [2022-08-23T07:13:38.373Z] [iam] checking project react-0722 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2022-08-23T07:13:38.375Z] > refreshing access token with scopes: []
+[debug] [2022-08-23T07:13:38.377Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2022-08-23T07:13:38.378Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2022-08-23T07:13:38.698Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2022-08-23T07:13:38.699Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2022-08-23T07:13:38.710Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/react-0722:testIamPermissions [none]
+[debug] [2022-08-23T07:13:38.710Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/react-0722:testIamPermissions x-goog-quota-user=projects/react-0722
+[debug] [2022-08-23T07:13:38.711Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/react-0722:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2022-08-23T07:13:39.764Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/react-0722:testIamPermissions 200
+[debug] [2022-08-23T07:13:39.764Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/react-0722:testIamPermissions {}
+[debug] [2022-08-23T07:13:39.764Z] [iam] error while checking permissions, command may fail: FirebaseError: Authorization failed. This account is missing the following required permissions on project react-0722:
 
   firebase.projects.get
   firebasehosting.sites.update
-[debug] [2022-08-09T09:07:30.920Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/react-0722 [none]
-[debug] [2022-08-09T09:07:31.443Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/react-0722 403
-[debug] [2022-08-09T09:07:31.443Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/react-0722 {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
-[debug] [2022-08-09T09:07:31.445Z] HTTP Error: 403, The caller does not have permission
-[debug] [2022-08-09T09:07:31.447Z] FirebaseError: HTTP Error: 403, The caller does not have permission
+[debug] [2022-08-23T07:13:39.766Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/react-0722 [none]
+[debug] [2022-08-23T07:13:40.254Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/react-0722 403
+[debug] [2022-08-23T07:13:40.254Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/react-0722 {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2022-08-23T07:13:40.255Z] HTTP Error: 403, The caller does not have permission
+[debug] [2022-08-23T07:13:40.257Z] FirebaseError: HTTP Error: 403, The caller does not have permission
     at responseToError (C:\Users\vahermih\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:49:12)
     at RetryOperation._fn (C:\Users\vahermih\AppData\Roaming\npm\node_modules\firebase-tools\lib\apiv2.js:288:77)
     at processTicksAndRejections (node:internal/process/task_queues:96:5)

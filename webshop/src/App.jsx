@@ -13,6 +13,7 @@ import Shops from './pages/Shops';
 import SingleProduct from './pages/SingleProduct';
 import NavigationBar from './components/NavigationBar';
 import NotFound from './pages/NotFound';
+import PaymentCompleted from './pages/PaymentCompleted';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="/meist" exact element={ <AboutUs /> } />
         <Route path="/ostukorv" exact element={ <Cart /> } />
         <Route path="/toode/:id" exact element={ <SingleProduct /> } />
+        <Route path="/tellimus" exact element={ <PaymentCompleted /> } />
         <Route path="/admin" exact element={ <AdminHome /> } />
         <Route path="/admin/lisa-toode" exact element={ <AddProduct /> } />
         <Route path="/admin/halda-tooteid" exact element={ <MaintainProducts /> } />

@@ -1,14 +1,27 @@
 import { Link } from 'react-router-dom';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { cartSumService } from "../store/cartSumService";
+import { useState } from 'react';
 
 function NavigationBar() {
   const { t, i18n } = useTranslation();
+
+  const getCartSum = () => {
+    let cart = sessionStorage.getItem("cart");
+    cart = JSON.parse(cart) || [];
+    let cartSum = 0;
+    cart.forEach(element => cartSum += element.product.price * element.quantity);
+    return cartSum;
+  }
+  const [cartSum, setCartSum] = useState(getCartSum());
 
   const changeWebsiteLanguage = (language) => {
     i18n.changeLanguage(language);
     localStorage.setItem("language", language);
   }
+
+  cartSumService.getCartSum().subscribe(newCartSum => setCartSum(newCartSum));
 
   return ( 
     <Navbar bg="dark" variant="dark">
@@ -21,6 +34,7 @@ function NavigationBar() {
           <Nav.Link as={Link} to="/ostukorv">{t('navbar.cart-button')}</Nav.Link>
         </Nav>
       </Container>
+      <div className="cart-sum">{cartSum} €</div>
       <img className="lang" onClick={() => changeWebsiteLanguage('ee')} src={require('../assets/estonian.png')} alt="" />
       <img className="lang" onClick={() => changeWebsiteLanguage('en')} src={require('../assets/english.png')} alt="" />
       <img className="lang" onClick={() => changeWebsiteLanguage('ru')} src={require('../assets/russian.png')} alt="" />

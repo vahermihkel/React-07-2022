@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import FileUpload from "../../components/FileUpload";
 
 function AddProduct() {
   const idRef = useRef();
@@ -7,7 +8,7 @@ function AddProduct() {
   const priceRef = useRef();
   const descriptionRef = useRef();
   const categoryRef = useRef();
-  const imageRef = useRef();
+  // const imageRef = useRef();
   const activeRef = useRef();
   const [idUnique, setIdUnique] = useState(true);
   const [products, setProducts] = useState([]);
@@ -16,6 +17,7 @@ function AddProduct() {
   const categoriesUrl = "https://react-0722-default-rtdb.europe-west1.firebasedatabase.app/categories.json";
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     fetch(productsUrl)
@@ -44,14 +46,14 @@ function AddProduct() {
       setMessage("Kirjeldus on täitmata");
       return;
     }
-    if (imageRef.current.value === "") {
-      setMessage("Pilt on täitmata");
-      return;
-    }
+    // if (imageRef.current.value === "") {
+    //   setMessage("Pilt on täitmata");
+    //   return;
+    // }
 
     const newProduct = {
       "id":Number(idRef.current.value),
-      "image":imageRef.current.value,
+      "image":imageUrl,
       "name":nameRef.current.value,
       "price":Number(priceRef.current.value),
       "description":descriptionRef.current.value,
@@ -94,7 +96,8 @@ function AddProduct() {
       {categories.map(element => <option key={element.name}>{element.name}</option>)}
     </select> <br />
     <label>Toote pilt</label> <br />
-    <input ref={imageRef} type="text" /> <br />
+    {/* <input ref={imageRef} type="text" /> <br /> */}
+    <FileUpload onSendPictureUrl={setImageUrl} />
     <label>Toote aktiivsus</label> <br />
     <input ref={activeRef} type="checkbox" /> <br />
     <button disabled={idUnique===false} onClick={addNewProduct}>Sisesta</button>

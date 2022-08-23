@@ -12,7 +12,7 @@ function Payment(props) {
       "order_reference": Math.random() * 999999,
       "nonce": "a9b7f7e7" + new Date() + Math.random() * 999999,
       "timestamp": new Date(),
-      "customer_url": "https://react-0722.web.app"
+      "customer_url": "https://react-0722.web.app/tellimus"
       }      
 
     fetch("https://igw-demo.every-pay.com/api/v4/payments/oneoff", {

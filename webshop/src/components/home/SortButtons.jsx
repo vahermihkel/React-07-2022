@@ -1,27 +1,32 @@
 import { Button } from "react-bootstrap";
 
+//categoryProducts={filteredProducts} 
 function SortButtons(props) {
   const sortAZ = () => {
     // muteerib - mutates
                       // pageProducts={products}
-    const result = [...props.categoryProducts].sort((a,b)=> a.name.localeCompare(b.name));
+    props.categoryProducts.sort((a,b)=> a.name.localeCompare(b.name));
     // updatePageProducts={setProducts}
-    props.updatePageProducts(result.slice(0,20));
+    props.updatePageProducts(props.categoryProducts.slice(0,20));
+    props.updatePage(1);
   }
 
   const sortZA = () => {
-    const result = [...props.categoryProducts].sort((a,b)=> b.name.localeCompare(a.name));
-    props.updatePageProducts(result.slice(0,20));
+    props.categoryProducts.sort((a,b)=> b.name.localeCompare(a.name));
+    props.updatePageProducts(props.categoryProducts.slice(0,20));
+    props.updatePage(1);
   }
 
   const sortPriceAsc = () => {
-    const result = [...props.categoryProducts].sort((a,b)=> a.price - b.price);
-    props.updatePageProducts(result.slice(0,20));
+    props.categoryProducts.sort((a,b)=> a.price - b.price);
+    props.updatePageProducts(props.categoryProducts.slice(0,20));
+    props.updatePage(1);
   }
 
   const sortPriceDesc = () => {
-    const result = [...props.categoryProducts].sort((a,b)=> b.price - a.price);
-    props.updatePageProducts(result.slice(0,20));
+    props.categoryProducts.sort((a,b)=> b.price - a.price);
+    props.updatePageProducts(props.categoryProducts.slice(0,20));
+    props.updatePage(1);
   }
 
   return ( 
