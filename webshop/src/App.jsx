@@ -14,6 +14,8 @@ import SingleProduct from './pages/SingleProduct';
 import NavigationBar from './components/NavigationBar';
 import NotFound from './pages/NotFound';
 import PaymentCompleted from './pages/PaymentCompleted';
+import Login from './pages/Login';
+import SignUp from './pages/admin/SignUp';
 
 function App() {
 
@@ -21,21 +23,21 @@ function App() {
     <div>
       <NavigationBar />
       <Routes>
-        {/* 11tk - 6 admin asja */}
         <Route path="/" exact element={ <HomePage /> } />
         <Route path="/poed" exact element={ <Shops /> } />
         <Route path="/meist" exact element={ <AboutUs /> } />
         <Route path="/ostukorv" exact element={ <Cart /> } />
         <Route path="/toode/:id" exact element={ <SingleProduct /> } />
         <Route path="/tellimus" exact element={ <PaymentCompleted /> } />
+        <Route path="/logi-sisse" exact element={ <Login /> } />
         <Route path="/admin" exact element={ <AdminHome /> } />
         <Route path="/admin/lisa-toode" exact element={ <AddProduct /> } />
         <Route path="/admin/halda-tooteid" exact element={ <MaintainProducts /> } />
         <Route path="/admin/muuda/:id" exact element={ <EditProduct /> } />
         <Route path="/admin/halda-poode" exact element={ <MaintainShops /> } />
         <Route path="/admin/halda-kategooriaid" exact element={ <Category /> } />
+        <Route path="/admin/lisa-kasutaja"  element={ <SignUp /> } />
         <Route path="*" exact element={ <NotFound /> } />
-        {/* <Route path="*" exact element={ <Navigate to="/" /> } /> */}
       </Routes>
     </div>
   );

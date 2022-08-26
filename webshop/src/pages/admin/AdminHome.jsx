@@ -16,6 +16,9 @@ function AdminHome() {
     <Link to="/admin/halda-poode">
       <Button>Halda poode</Button>
     </Link>
+    <Link to="/admin/lisa-kasutaja">
+      <Button>Lisa kasutaja</Button>
+    </Link>
   </div> );
 }
 

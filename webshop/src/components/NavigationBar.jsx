@@ -4,6 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { cartSumService } from "../store/cartSumService";
 import { useState } from 'react';
 
+// R 26.08 - sisselogimine/registreerumine
+// R 02.09 - Nortali proovitöö, saate rääkida mis projektid plaanis on
+// T 13.09 - näitate lõpuprojekti veebilehte, koodi poolt (tehke ükskõik mida Reactis)
+
 function NavigationBar() {
   const { t, i18n } = useTranslation();
 
@@ -23,6 +27,10 @@ function NavigationBar() {
 
   cartSumService.getCartSum().subscribe(newCartSum => setCartSum(newCartSum));
 
+  const logout = () => {
+    
+  }
+
   return ( 
     <Navbar bg="dark" variant="dark">
       <Container>
@@ -32,6 +40,8 @@ function NavigationBar() {
           <Nav.Link as={Link} to="/poed">{t('navbar.shops-button')}</Nav.Link>
           <Nav.Link as={Link} to="/meist">{t('navbar.about-button')}</Nav.Link>
           <Nav.Link as={Link} to="/ostukorv">{t('navbar.cart-button')}</Nav.Link>
+          <Nav.Link as={Link} to="/logi-sisse">Logi sisse</Nav.Link>
+          <Nav.Link onClick={logout}>Logi välja</Nav.Link>
         </Nav>
       </Container>
       <div className="cart-sum">{cartSum} €</div>
