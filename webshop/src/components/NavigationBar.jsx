@@ -3,6 +3,9 @@ import { Container, Nav, Navbar } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { cartSumService } from "../store/cartSumService";
 import { useState } from 'react';
+import { useContext } from 'react';
+import AuthContext from '../store/AuthContext';
+
 
 // R 26.08 - sisselogimine/registreerumine
 // R 02.09 - Nortali proovitöö, saate rääkida mis projektid plaanis on
@@ -10,6 +13,7 @@ import { useState } from 'react';
 
 function NavigationBar() {
   const { t, i18n } = useTranslation();
+  const authCtx = useContext(AuthContext);
 
   const getCartSum = () => {
     let cart = sessionStorage.getItem("cart");
@@ -28,7 +32,7 @@ function NavigationBar() {
   cartSumService.getCartSum().subscribe(newCartSum => setCartSum(newCartSum));
 
   const logout = () => {
-    
+    authCtx.logout(false);
   }
 
   return ( 
@@ -40,8 +44,8 @@ function NavigationBar() {
           <Nav.Link as={Link} to="/poed">{t('navbar.shops-button')}</Nav.Link>
           <Nav.Link as={Link} to="/meist">{t('navbar.about-button')}</Nav.Link>
           <Nav.Link as={Link} to="/ostukorv">{t('navbar.cart-button')}</Nav.Link>
-          <Nav.Link as={Link} to="/logi-sisse">Logi sisse</Nav.Link>
-          <Nav.Link onClick={logout}>Logi välja</Nav.Link>
+          { authCtx.loggedIn === false && <Nav.Link as={Link} to="/logi-sisse">Logi sisse</Nav.Link>}
+          { authCtx.loggedIn === true && <Nav.Link onClick={logout}>Logi välja</Nav.Link>}
         </Nav>
       </Container>
       <div className="cart-sum">{cartSum} €</div>
