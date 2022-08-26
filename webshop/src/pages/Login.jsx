@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useContext, useRef, useState } from "react";
 import AuthContext from "../store/AuthContext";
+import { useTranslation } from "react-i18next";
 
 function Login() {
   const emailRef = useRef();
@@ -9,6 +10,7 @@ function Login() {
   const authCtx = useContext(AuthContext);
   const firebaseUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDBcdr_r5o-po2nAT8VBLbhFfcuFMx0BLA";
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const login = () => {
     const loggedInUser = {
@@ -26,8 +28,8 @@ function Login() {
       }
     }).then(res => res.json()) // body+headers+http status code+time
       .then(body => {
-        if (body.error.message) {
-          setMessage(body.error.message);
+        if (body.error) {
+          setMessage(t(body.error.message));
         }
         if (body.registered) {
           let today = new Date(); // uus tänane kuupäev praeguse kellaajaga
@@ -50,7 +52,7 @@ function Login() {
       <input ref={emailRef} type="text" /> <br />
       <label>Parool</label> <br />
       <input ref={passwordRef} type="text" /> <br />
-      <button onClick={login}>Logi sisse</button>
+      <button onClick={login}>{t("login.login-button")}</button>
     </div> );
 }
 

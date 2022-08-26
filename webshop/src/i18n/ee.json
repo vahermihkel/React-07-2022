@@ -1,0 +1,10 @@
+{
+  "navbar.admin-button": "Admin vaatesse",
+  "navbar.shops-button": "Meie poed",
+  "navbar.about-button": "Meist",
+  "navbar.cart-button": "Ostukorv",
+  "INVALID_EMAIL": "Vigane email",
+  "MISSING_PASSWORD": "Parool puudub",
+  "EMAIL_NOT_FOUND": "E-maili ei leitud",
+  "login.login-button": "Logi sisse"
+}

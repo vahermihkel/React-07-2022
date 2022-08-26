@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { cartSumService } from "../store/cartSumService";
-import { useState } from 'react';
+// import { cartSumService } from "../store/cartSumService";
+// import { useState } from 'react';
 import { useContext } from 'react';
 import AuthContext from '../store/AuthContext';
+import CartSumContext from '../store/CartSumContext';
 
 
 // R 26.08 - sisselogimine/registreerumine
@@ -14,25 +15,28 @@ import AuthContext from '../store/AuthContext';
 function NavigationBar() {
   const { t, i18n } = useTranslation();
   const authCtx = useContext(AuthContext);
+  const cartSumCtx = useContext(CartSumContext);
+  const navigate = useNavigate();
 
-  const getCartSum = () => {
-    let cart = sessionStorage.getItem("cart");
-    cart = JSON.parse(cart) || [];
-    let cartSum = 0;
-    cart.forEach(element => cartSum += element.product.price * element.quantity);
-    return cartSum;
-  }
-  const [cartSum, setCartSum] = useState(getCartSum());
+  // const getCartSum = () => {
+  //   let cart = sessionStorage.getItem("cart");
+  //   cart = JSON.parse(cart) || [];
+  //   let cartSum = 0;
+  //   cart.forEach(element => cartSum += element.product.price * element.quantity);
+  //   return cartSum;
+  // }
+  // const [cartSum, setCartSum] = useState(getCartSum());
 
   const changeWebsiteLanguage = (language) => {
     i18n.changeLanguage(language);
     localStorage.setItem("language", language);
   }
 
-  cartSumService.getCartSum().subscribe(newCartSum => setCartSum(newCartSum));
+  // cartSumService.getCartSum().subscribe(newCartSum => setCartSum(newCartSum));
 
   const logout = () => {
     authCtx.logout(false);
+    navigate("/");
   }
 
   return ( 
@@ -40,7 +44,7 @@ function NavigationBar() {
       <Container>
         <Navbar.Brand as={Link} to="/">Webshop</Navbar.Brand>
         <Nav className="me-auto">
-          <Nav.Link as={Link} to="/admin">{t('navbar.admin-button')}</Nav.Link>
+          { authCtx.loggedIn === true && <Nav.Link as={Link} to="/admin">{t('navbar.admin-button')}</Nav.Link>}
           <Nav.Link as={Link} to="/poed">{t('navbar.shops-button')}</Nav.Link>
           <Nav.Link as={Link} to="/meist">{t('navbar.about-button')}</Nav.Link>
           <Nav.Link as={Link} to="/ostukorv">{t('navbar.cart-button')}</Nav.Link>
@@ -48,7 +52,7 @@ function NavigationBar() {
           { authCtx.loggedIn === true && <Nav.Link onClick={logout}>Logi välja</Nav.Link>}
         </Nav>
       </Container>
-      <div className="cart-sum">{cartSum} €</div>
+      <div className="cart-sum">{ cartSumCtx.cartSum } €</div>
       <img className="lang" onClick={() => changeWebsiteLanguage('ee')} src={require('../assets/estonian.png')} alt="" />
       <img className="lang" onClick={() => changeWebsiteLanguage('en')} src={require('../assets/english.png')} alt="" />
       <img className="lang" onClick={() => changeWebsiteLanguage('ru')} src={require('../assets/russian.png')} alt="" />

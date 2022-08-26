@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import AboutUs from './pages/AboutUs';
 import AddProduct from './pages/admin/AddProduct';
@@ -16,8 +16,11 @@ import NotFound from './pages/NotFound';
 import PaymentCompleted from './pages/PaymentCompleted';
 import Login from './pages/Login';
 import SignUp from './pages/admin/SignUp';
+import AuthContext from './store/AuthContext';
+import { useContext } from 'react';
 
 function App() {
+  const authCtx = useContext(AuthContext);
 
   return (
     <div>
@@ -30,13 +33,18 @@ function App() {
         <Route path="/toode/:id" exact element={ <SingleProduct /> } />
         <Route path="/tellimus" exact element={ <PaymentCompleted /> } />
         <Route path="/logi-sisse" exact element={ <Login /> } />
-        <Route path="/admin" exact element={ <AdminHome /> } />
-        <Route path="/admin/lisa-toode" exact element={ <AddProduct /> } />
-        <Route path="/admin/halda-tooteid" exact element={ <MaintainProducts /> } />
-        <Route path="/admin/muuda/:id" exact element={ <EditProduct /> } />
-        <Route path="/admin/halda-poode" exact element={ <MaintainShops /> } />
-        <Route path="/admin/halda-kategooriaid" exact element={ <Category /> } />
-        <Route path="/admin/lisa-kasutaja"  element={ <SignUp /> } />
+        { authCtx.loggedIn === true && <>
+          <Route path="/admin" exact element={ <AdminHome /> } />
+          <Route path="/admin/lisa-toode" exact element={ <AddProduct /> } />
+          <Route path="/admin/halda-tooteid" exact element={ <MaintainProducts /> } />
+          <Route path="/admin/muuda/:id" exact element={ <EditProduct /> } />
+          <Route path="/admin/halda-poode" exact element={ <MaintainShops /> } />
+          <Route path="/admin/halda-kategooriaid" exact element={ <Category /> } />
+          <Route path="/admin/lisa-kasutaja"  element={ <SignUp /> } />
+        </>}
+        { authCtx.loggedIn === false && <>
+          <Route path="/admin/*" exact element={ <Navigate to="/logi-sisse" /> } />
+        </>}
         <Route path="*" exact element={ <NotFound /> } />
       </Routes>
     </div>

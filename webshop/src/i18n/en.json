@@ -1,0 +1,10 @@
+{
+  "navbar.admin-button": "To admin view",
+  "navbar.shops-button": "Our shops",
+  "navbar.about-button": "About us",
+  "navbar.cart-button": "Cart",
+  "INVALID_EMAIL": "Invalid email",
+  "MISSING_PASSWORD": "Missing password",
+  "EMAIL_NOT_FOUND": "Email not found",
+  "login.login-button": "Log in"
+}

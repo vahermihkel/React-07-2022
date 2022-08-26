@@ -1,16 +1,32 @@
 import React, { useState } from "react";
 
-const AuthContext = React.createContext(null) // <- siia sulgude sisse saan kirjutada,et
+const AuthContext = React.createContext({
+  loggedIn: false,
+  login: () => {},
+  logout: () => {}
+}); // <- siia sulgude sisse saan kirjutada,et
 // kui context kasutusele võetakse ja pannakse tema muutuja peale punkt   authCtx.
 // siis ta näitab neid asju
 
 
 export const AuthContextProvider = (props) => {
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(determineIfLoggedIn());
+
+  function determineIfLoggedIn() {
+    if (sessionStorage.getItem("userData")) {
+      const userData = JSON.parse(sessionStorage.getItem("userData"));
+      if (new Date(userData.expires).getTime() > (new Date().getTime())) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
 
   const loginHandler = () => {
     setLoggedIn(true);
-    console.log("panin sisselogimise true-ks")
   }
 
   const logoutHandler = () => {

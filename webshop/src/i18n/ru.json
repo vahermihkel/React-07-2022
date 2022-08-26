@@ -1,0 +1,10 @@
+{
+  "navbar.admin-button": "Admin vaatesse RU",
+  "navbar.shops-button": "Meie poed RU",
+  "navbar.about-button": "Meist RU",
+  "navbar.cart-button": "Ostukorv RU",
+  "INVALID_EMAIL": "Vigane email RU",
+  "MISSING_PASSWORD": "Parool puudub RU",
+  "EMAIL_NOT_FOUND": "E-maili ei leitud RU",
+  "login.login-button": "Logi sisse RU"
+}

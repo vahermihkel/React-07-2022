@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ParcelMachine from "../components/cart/ParcelMachine";
 import Payment from "../components/cart/Payment";
 import styles from '../css/Cart.module.css';
-import { cartSumService } from "../store/cartSumService";
+// import { cartSumService } from "../store/cartSumService";
+import CartSumContext from "../store/CartSumContext";
 
 function Cart() {
   const [cart, setCart] = useState(JSON.parse(sessionStorage.getItem("cart")) || []);
+  const cartSumCtx = useContext(CartSumContext);
 
   const decreaseQuantity = (index) => {
     cart[index].quantity = cart[index].quantity - 1;
@@ -14,21 +16,24 @@ function Cart() {
     }
     setCart(cart.slice()); 
     sessionStorage.setItem("cart", JSON.stringify(cart)); 
-    cartSumService.sendCartSum(calculateCartSum());
+    // cartSumService.sendCartSum(calculateCartSum());
+    cartSumCtx.newCartSum(calculateCartSum());
   }
 
   const increaseQuantity = (index) => {
     cart[index].quantity = cart[index].quantity + 1;
     setCart(cart.slice()); 
     sessionStorage.setItem("cart", JSON.stringify(cart)); 
-    cartSumService.sendCartSum(calculateCartSum());
+    // cartSumService.sendCartSum(calculateCartSum());
+    cartSumCtx.newCartSum(calculateCartSum());
   }
 
   const removeFromCart = (index) => {
     cart.splice(index,1); 
     setCart(cart.slice()); 
     sessionStorage.setItem("cart", JSON.stringify(cart));
-    cartSumService.sendCartSum(calculateCartSum()); 
+    // cartSumService.sendCartSum(calculateCartSum()); 
+    cartSumCtx.newCartSum(calculateCartSum());
   }
 
   const calculateCartSum = () => {
@@ -40,7 +45,7 @@ function Cart() {
   const emptyCart = () => {
     setCart([]); 
     sessionStorage.setItem("cart", JSON.stringify([])); 
-    cartSumService.sendCartSum(calculateCartSum());
+    cartSumCtx.newCartSum(calculateCartSum());
   }
 
   return ( 
