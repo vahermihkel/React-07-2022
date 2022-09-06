@@ -9,7 +9,7 @@ import CartSumContext from '../store/CartSumContext';
 
 
 // R 26.08 - sisselogimine/registreerumine
-// R 02.09 - Nortali proovitöö, saate rääkida mis projektid plaanis on
+// R 02.09 - 9.30 - Nortali proovitöö, saate rääkida mis projektid plaanis on
 // T 13.09 - näitate lõpuprojekti veebilehte, koodi poolt (tehke ükskõik mida Reactis)
 
 function NavigationBar() {
